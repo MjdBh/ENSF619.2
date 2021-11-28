@@ -75,16 +75,18 @@ class DataGeneratorUnet(keras.utils.Sequence):
             fill_mode='reflect',
         )
         'We can also use the following'
-        # img_aug = datagen.apply_transform(image_for_augmentation, 5)
+        # img_aug = datagen.apply_transform(image_for_augmentation, 9)
 
         transform_parameters = datagen.get_random_transform(img.shape)
+        #Keras need s the image be in 3D newaxis addes to the end
         image_for_augmentation = img[:, :, newaxis]
         mask_for_augmentation = mask[:, :, newaxis]
-
+        #augmentation transforms are applied to the image and mask
         img_aug = datagen.apply_transform(image_for_augmentation, transform_parameters)
         mask_aug = datagen.apply_transform(mask_for_augmentation, transform_parameters)
         return img_aug, mask_aug
 
+    # Extract patch from image and mask
     def __extract_patch(self, img, mask):
         crop_idx = [None] * 2
 
